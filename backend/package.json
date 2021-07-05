@@ -7,7 +7,7 @@
     "build": "tsc",
     "dev": "tsnd --respawn src",
     "start": "node dist/index.js"
-    },
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
