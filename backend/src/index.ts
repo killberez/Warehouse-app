@@ -1,11 +1,20 @@
-const express = require("express");
+require("dotenv").config();
 
-const PORT = process.env.PORT || 8080;
+const express = require("express");
+const sequelize = require("./db");
+
+const PORT = process.env.PORT || 5000;
 
 const app = express();
 
-app.get("/", (req: any, res: any) => {
-  res.send("HELLO POSTGRE + NODEJS!!!");
-});
+const start = async () => {
+  try {
+    await sequelize.authenticate();
+    await sequelize.sync();
+    app.listen(PORT, () => console.log(`server started on port ${PORT}`));
+  } catch (e) {
+    console.log(e);
+  }
+};
 
-app.listen(PORT, () => console.log(`server started on port ${PORT}`));
+start();
