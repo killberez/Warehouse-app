@@ -12,6 +12,7 @@ const Customer = sequelize.define("customer", {
 });
 
 const Cargo = sequelize.define("cargo", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   customer_id: { type: DataTypes.INTEGER },
   total_weight: { type: DataTypes.INTEGER },
   total_volume: { type: DataTypes.INTEGER },

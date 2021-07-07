@@ -1,8 +1,7 @@
-const { Cargo, Test } = require("../models/models");
+const { Cargo } = require("../models/models");
 
 const addCargo = async function (req, res) {
   const {
-    id,
     customer_id,
     total_weight,
     total_volume,
@@ -11,7 +10,6 @@ const addCargo = async function (req, res) {
     warehouse_place,
   } = req.body;
   const cargo = await Cargo.create({
-    id,
     customer_id,
     total_weight,
     total_volume,
@@ -22,4 +20,9 @@ const addCargo = async function (req, res) {
   return res.json(cargo);
 };
 
-module.exports = addCargo;
+const getAll = async function (req, res) {
+  const cargos = await Cargo.findAll();
+  return res.json(cargos);
+};
+
+module.exports = { addCargo, getAll };
