@@ -20,16 +20,6 @@ const Cargo = sequelize.define("cargo", {
   warehouse_place: { type: DataTypes.STRING },
 });
 
-const Test = sequelize.define("test", {
-  name: { type: DataTypes.STRING },
-  lastName: { type: DataTypes.STRING },
-});
-
-const Test2 = sequelize.define("test2", {
-  name: { type: DataTypes.STRING },
-  lastName: { type: DataTypes.STRING },
-});
-
 Customer.hasMany(Cargo);
 Cargo.belongsTo(Customer);
 
@@ -37,6 +27,4 @@ module.exports = {
   Worker,
   Customer,
   Cargo,
-  Test,
-  Test2,
 };
