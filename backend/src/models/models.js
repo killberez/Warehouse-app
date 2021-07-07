@@ -12,13 +12,22 @@ const Customer = sequelize.define("customer", {
 });
 
 const Cargo = sequelize.define("cargo", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, unique: true },
   customer_id: { type: DataTypes.INTEGER },
   total_weight: { type: DataTypes.INTEGER },
   total_volume: { type: DataTypes.INTEGER },
   nimber_of_boxes: { type: DataTypes.INTEGER },
   condition: { type: DataTypes.STRING },
   warehouse_place: { type: DataTypes.STRING },
+});
+
+const Test = sequelize.define("test", {
+  name: { type: DataTypes.STRING },
+  lastName: { type: DataTypes.STRING },
+});
+
+const Test2 = sequelize.define("test2", {
+  name: { type: DataTypes.STRING },
+  lastName: { type: DataTypes.STRING },
 });
 
 Customer.hasMany(Cargo);
@@ -28,4 +37,6 @@ module.exports = {
   Worker,
   Customer,
   Cargo,
+  Test,
+  Test2,
 };
