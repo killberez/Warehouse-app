@@ -1,13 +1,15 @@
 {
-    "compilerOptions": {
-     "strict": true,                           
-     "target": "es5",                        
-     "outDir": "./dist", 
-     "declaration": true,                   
-     "skipLibCheck": true,                     
-     "module": "commonjs",                     
-     "esModuleInterop": true,            
-     "resolveJsonModule": true,     
-     "forceConsistentCasingInFileNames": true,
-    }
+  "compilerOptions": {
+    "strict": true,
+    "target": "es6",
+    "outDir": "./dist",
+    "declaration": true,
+    "skipLibCheck": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
 }
