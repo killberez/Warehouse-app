@@ -1,18 +1,16 @@
-const { Sequelize } = require("sequelize");
+import dotenv from "dotenv";
+import { Sequelize } from "sequelize-typescript";
 
-module.exports = new Sequelize("Warehouse", "postgres", "Zaebars13", {
-  dialect: "postgres",
-  host: "localhost",
-  port: 5432,
-});
+dotenv.config();
 
-// module.exports = new Sequelize(
-//       process.env.DB_NAME,
-//       process.env.DB_USER,
-//       process.env.DB_PASSWORD,
-//       {
-//         dialect: "postgres",
-//         host: process.env.DB_HOST,
-//         port: process.env.DB_PORT,
-//       }
-//     );
+export const sequelize = new Sequelize(
+  process.env.DB_NAME!,
+  process.env.DB_USER!,
+  process.env.DB_PASSWORD,
+  {
+    dialect: "postgres",
+    host: process.env.DB_HOST,
+    port: 5432,
+    models: [__dirname + "/models"],
+  }
+);
