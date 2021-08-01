@@ -1,8 +1,15 @@
 import Cargo from "../models/cargo";
+import User from "../models/user";
 import { Request, Response } from "express";
 
 const addCargo = async function (req: Request, res: Response) {
-  if (req.body.isAdmin) {
+  const token = req.headers.authorization?.split(" ")[1];
+  const user = await User.findOne({
+    where: {
+      jwt: token,
+    },
+  });
+  if (user?.isAdmin == true) {
     const cargo = await Cargo.create(req.body);
     return res.json(cargo);
   } else {
