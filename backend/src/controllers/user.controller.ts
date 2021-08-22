@@ -13,18 +13,23 @@ function generateAccessToken(user: IUser) {
 
 const createUser = async function (req: Request, res: Response) {
   const user = await User.create(req.body);
-  const { id, isAdmin } = user;
-  const token = await generateAccessToken({ id, isAdmin });
-  return res.json({ user: { id, isAdmin, token } });
+  const { id, isAdmin, login, password } = user;
+  const token = await generateAccessToken({ id, isAdmin, login, password });
+  return res.json({ user: { id, isAdmin, login, password, token } });
 };
 
 const getUserToken = async function (req: Request, res: Response) {
-  const userId = req.body.id;
-  const user = await User.findOne({ where: { id: userId } });
+  const userLogin = req.body.login;
+  const userPassword = req.body.password;
+  const user = await User.findOne({ where: { login: userLogin } });
   //@ts-ignore
-  const { id, isAdmin } = user;
-  const token = await generateAccessToken({ id, isAdmin });
-  return res.json(token);
+  const { id, isAdmin, login, password } = user;
+  if (user?.password === userPassword) {
+    const token = await generateAccessToken({ id, isAdmin, login, password });
+    return res.json(token);
+  } else {
+    return null;
+  }
 };
 
 const getAllUsers = async function (req: Request, res: Response) {
