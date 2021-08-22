@@ -1,31 +1,17 @@
 import Cargo from "../models/cargo";
-import User from "../models/user";
+import User, { IUser } from "../models/user";
 import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
 
 const addCargo = async function (req: Request, res: Response) {
-  const token = req.headers.authorization?.split(" ")[1];
-  const user = await User.findOne({
-    where: {
-      jwt: token,
-    },
-  });
-  if (user?.isAdmin == true) {
-    const cargo = await Cargo.create(req.body);
-    return res.json(cargo);
-  } else {
-    console.log("no access");
-    return;
-  }
+  const cargo = await Cargo.create(req.body);
+  return res.json(cargo);
 };
 
-const getAll = async function (req: Request, res: Response) {
-  if (req.body.isAdmin) {
-    const cargos = await Cargo.findAll();
-    return res.json(cargos);
-  } else {
-    console.log("no access");
-    return;
-  }
+const getCargos = async function (req: Request, res: Response) {
+  //@ts-ignore
+  const cargos = await Cargo.findAll();
+  return res.json(cargos);
 };
 
 const getCargoById = async function (req: Request, res: Response) {
@@ -35,9 +21,20 @@ const getCargoById = async function (req: Request, res: Response) {
 };
 
 const getCargoByCustomerId = async function (req: Request, res: Response) {
-  const customerId = req.body.customerId;
-  const cargos = await Cargo.findAll({ where: { customerId: customerId } });
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(401).send();
+  }
+  const user = jwt.verify(token!, process.env.TOKEN_SECRET!) as IUser;
+  const cargos = await Cargo.findAll({ where: { customerId: user.id } });
   return res.json(cargos);
 };
 
-export { addCargo, getAll, getCargoById, getCargoByCustomerId };
+// const getCargoByCustomerId = async function (req: Request, res: Response) {
+//   const customerId = req.body.customerId;
+//   console.log(customerId);
+//   const cargos = await Cargo.findAll({ where: { customerId: customerId } });
+//   return res.json(cargos);
+// };
+
+export { addCargo, getCargos, getCargoById, getCargoByCustomerId };

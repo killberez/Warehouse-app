@@ -5,6 +5,7 @@ import Main from "./pages/MainPage/mainPage";
 import CargoForm from "./pages/CargoForm/CargoForm";
 import Cargos from "./pages/Cargos/Cargos";
 import Customer from "./pages/Customer/Customer";
+import Worker from "./pages/Worker/worker";
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
           </Route>
           <Route exact path="/customer">
             <Customer />
+          </Route>
+          <Route exact path="/worker">
+            <Worker />
           </Route>
         </Switch>
       </Router>
