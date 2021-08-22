@@ -1,8 +1,7 @@
 import { Model, Column, Table } from "sequelize-typescript";
 
-interface IUser {
+export interface IUser {
   id?: string;
-  jwt: string;
   isAdmin: boolean;
 }
 
@@ -11,8 +10,6 @@ export default class Customer extends Model<IUser> {
   // @PrimaryKey
   // @Column
   // id!: string;
-  @Column
-  jwt!: string;
 
   @Column
   isAdmin!: boolean;

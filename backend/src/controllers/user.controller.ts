@@ -2,22 +2,29 @@ import User from "../models/user";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import { BeforeFindAfterExpandIncludeAll } from "sequelize-typescript";
+import jwt from "jsonwebtoken";
+import { IUser } from "../models/user";
 
 dotenv.config();
 
-const jwt = require("jsonwebtoken");
-
-function generateAccessToken(id: any) {
-  return jwt.sign(id, process.env.TOKEN_SECRET);
+function generateAccessToken(user: IUser) {
+  return jwt.sign(user, process.env.TOKEN_SECRET!);
 }
 
 const createUser = async function (req: Request, res: Response) {
-  const token = await generateAccessToken({ id: req.body.id });
-  const userJson = req.body;
-  userJson.jwt = token;
-  console.log(userJson);
-  const user = await User.create(userJson);
-  return res.json(user);
+  const user = await User.create(req.body);
+  const { id, isAdmin } = user;
+  const token = await generateAccessToken({ id, isAdmin });
+  return res.json({ user: { id, isAdmin, token } });
+};
+
+const getUserToken = async function (req: Request, res: Response) {
+  const userId = req.body.id;
+  const user = await User.findOne({ where: { id: userId } });
+  //@ts-ignore
+  const { id, isAdmin } = user;
+  const token = await generateAccessToken({ id, isAdmin });
+  return res.json(token);
 };
 
 const getAllUsers = async function (req: Request, res: Response) {
@@ -25,4 +32,4 @@ const getAllUsers = async function (req: Request, res: Response) {
   return res.json(users);
 };
 
-export { createUser, getAllUsers };
+export { createUser, getAllUsers, getUserToken };
